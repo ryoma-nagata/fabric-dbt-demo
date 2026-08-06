@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Seed から読み込んだ顧客マスタを整形したビュー。
+    columns:
+      - name: customer_id
+        description: 顧客を一意に識別する ID。
+        data_tests:
+          - unique
+          - not_null
+      - name: email
+        data_tests:
+          - not_null
+
+  - name: stg_orders
+    description: Seed から読み込んだ注文データを整形したビュー。
+    columns:
+      - name: order_id
+        description: 注文を一意に識別する ID。
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: order_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['pending', 'completed', 'cancelled', 'refunded']
+      - name: amount
+        data_tests:
+          - not_null

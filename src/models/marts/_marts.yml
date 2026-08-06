@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: 分析に利用する顧客ディメンション。
+    columns:
+      - name: customer_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fct_orders
+    description: 顧客属性と売上認識額を付加した注文ファクト。
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
+      - name: recognized_revenue
+        description: completed の注文だけを計上した売上額。
+        data_tests:
+          - not_null

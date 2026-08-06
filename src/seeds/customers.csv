@@ -1,0 +1,6 @@
+customer_id,customer_name,email,country,signup_date
+1,Aoi Tanaka,aoi.tanaka@example.com,JP,2024-01-15
+2,Haruto Sato,haruto.sato@example.com,JP,2024-02-08
+3,Emma Wilson,emma.wilson@example.com,US,2024-02-20
+4,Oliver Smith,oliver.smith@example.com,GB,2024-03-03
+5,Sofia Garcia,sofia.garcia@example.com,ES,2024-03-18
