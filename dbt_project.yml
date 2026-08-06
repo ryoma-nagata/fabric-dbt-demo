@@ -1,0 +1,39 @@
+name: fabric_dbt_demo
+version: "1.0.0"
+config-version: 2
+
+profile: fabric_dbt_demo
+
+model-paths: ["src/dbt/models"]
+seed-paths: ["src/dbt/seeds"]
+test-paths: ["src/dbt/tests"]
+macro-paths: ["src/dbt/macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  fabric_dbt_demo:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: marts
+
+seeds:
+  fabric_dbt_demo:
+    +schema: raw
+    customers:
+      +column_types:
+        customer_id: int
+        customer_name: varchar(100)
+        email: varchar(255)
+        country: varchar(2)
+        signup_date: date
+    orders:
+      +column_types:
+        order_id: int
+        customer_id: int
+        order_date: date
+        status: varchar(20)
+        amount: decimal(12,2)
