@@ -2,7 +2,7 @@
 
 Microsoft Fabric Warehouse 上で、CSV の Seed からステージングビューと分析用テーブルを作る最小構成の dbt プロジェクトです。
 
-Fabric Workspace の Git 連携で同期されるアイテムと混在しないように、dbt の資材はすべて `src/` に配置しています。
+Fabric からリポジトリのルートを dbt プロジェクトとして認識できるように、`dbt_project.yml` はルートへ配置しています。モデル、Seed、テストなどの dbt 資材は、Fabric Workspace の Git 連携で同期されるアイテムと混在しないように `src/` 配下へまとめています。
 
 ## データフロー
 
@@ -12,7 +12,7 @@ src/seeds/customers.csv -> stg_customers -> dim_customers --+
 src/seeds/orders.csv    -> stg_orders ----------------------+
 ```
 
-既定では Seed は `raw`、ステージングモデルは `staging`、マートモデルは `marts` スキーマに作成されます。
+Seed、ステージングモデル、マートモデルには、それぞれ `raw`、`staging`、`marts` をカスタムスキーマ名として指定しています。実際に作成されるスキーマ名は、Fabric 側のアダプター／プロファイル設定と dbt のスキーマ命名規則によって決まります。
 
 ## セットアップ
 
@@ -22,10 +22,14 @@ src/seeds/orders.csv    -> stg_orders ----------------------+
 4. 接続とプロジェクトを検証します。
 
 ```bash
-cd src
+mkdir -p ~/.dbt
+cp src/profiles.yml.example ~/.dbt/profiles.yml
+az login
 dbt debug
 dbt seed
 dbt build
 ```
 
 `dbt seed` はサンプル CSV をロードし、`dbt build` は依存順にモデルとテストを実行します。Seed を入れ直す場合は `dbt seed --full-refresh` を使用してください。
+
+実際の認証方法や接続値は利用環境に合わせて設定し、認証情報を含む `profiles.yml` はコミットしないでください。プロファイル内の `target`、`schema`、または Fabric アダプターの命名処理によって、`+schema` に付加される接頭辞が変わる場合があります。
