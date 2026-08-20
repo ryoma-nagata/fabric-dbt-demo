@@ -4,10 +4,11 @@ config-version: 2
 
 profile: fabric_dbt_demo
 
-model-paths: ["src/models"]
-seed-paths: ["src/seeds"]
-test-paths: ["src/tests"]
-macro-paths: ["src/macros"]
+model-paths: ["dbt/models"]
+seed-paths: ["dbt/seeds"]
+snapshot-paths: ["dbt/snapshots"]
+test-paths: ["dbt/tests"]
+macro-paths: ["dbt/macros"]
 target-path: "target"
 clean-targets: ["target", "dbt_packages"]
 
