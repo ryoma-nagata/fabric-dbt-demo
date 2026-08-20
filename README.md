@@ -42,10 +42,19 @@ mkdir -p ~/.dbt
 cp dbt/profiles.yml.example ~/.dbt/profiles.yml
 az login
 dbt debug
+dbt deps
 dbt seed
 dbt build
 ```
 
-`dbt seed` はサンプル CSV をロードし、`dbt build` は依存順にモデルとテストを実行します。Seed を入れ直す場合は `dbt seed --full-refresh` を使用してください。
+`dbt deps` はルートの `packages.yml` に定義した `dbt_utils` をインストールします。`dbt seed` はサンプル CSV をロードし、`dbt build` は依存順にモデルとテストを実行します。Seed を入れ直す場合は `dbt seed --full-refresh` を使用してください。
+
+Fabric 上でステージングモデルからマートモデルまでを簡単に確認する場合は、ルートの `selectors.yml` に定義したセレクターを使用します。
+
+```bash
+dbt build --selector fabric_smoke_test
+```
+
+この実行では `dbt_utils.expression_is_true` による売上金額の非負チェックも行われるため、パッケージの読み込みとセレクターの認識をまとめて確認できます。
 
 実際の認証方法や接続値は利用環境に合わせて設定し、認証情報を含む `profiles.yml` はコミットしないでください。プロファイル内の `target`、`schema`、または Fabric アダプターの命名処理によって、`+schema` に付加される接頭辞が変わる場合があります。
