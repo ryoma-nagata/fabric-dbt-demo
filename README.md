@@ -2,14 +2,30 @@
 
 Microsoft Fabric Warehouse 上で、CSV の Seed からステージングビューと分析用テーブルを作る最小構成の dbt プロジェクトです。
 
-Fabric からリポジトリのルートを dbt プロジェクトとして認識できるように、`dbt_project.yml` はルートへ配置しています。モデル、Seed、テストなどの dbt 資材は、Fabric Workspace の Git 連携で同期されるアイテムと混在しないように `src/` 配下へまとめています。
+Fabric からリポジトリのルートを dbt プロジェクトとして認識できるように、`dbt_project.yml` はルートへ配置しています。モデル、Seed、テストなどの dbt 資材は `dbt/`、補助ツールは `tools/`、Fabric Workspace の Git 連携で同期されるアイテムは `workspace/` へ分離しています。
+
+## ディレクトリ構成
+
+```text
+.
+├── dbt_project.yml
+├── packages.yml
+├── selectors.yml
+├── dbt/                     # dbt のモデル、マクロ、Seed、Snapshot、テスト
+├── tools/                   # dbt を補助するツール
+├── workspace/               # Fabric Workspace の同期対象
+├── scripts/fabric_cicd/     # Fabric のデプロイ／検証スクリプト
+├── tests/                   # 補助ツールとスクリプトのテスト
+├── docs/                    # プロジェクトドキュメント
+└── .github/                 # GitHub の設定とワークフロー
+```
 
 ## データフロー
 
 ```text
-src/seeds/customers.csv -> stg_customers -> dim_customers --+
+dbt/seeds/customers.csv -> stg_customers -> dim_customers --+
                                                             +-> fct_orders
-src/seeds/orders.csv    -> stg_orders ----------------------+
+dbt/seeds/orders.csv    -> stg_orders ----------------------+
 ```
 
 Seed、ステージングモデル、マートモデルには、それぞれ `raw`、`staging`、`marts` をカスタムスキーマ名として指定しています。実際に作成されるスキーマ名は、Fabric 側のアダプター／プロファイル設定と dbt のスキーマ命名規則によって決まります。
@@ -17,13 +33,13 @@ Seed、ステージングモデル、マートモデルには、それぞれ `ra
 ## セットアップ
 
 1. Python 環境に利用する Fabric 対応 dbt アダプターをインストールします。
-2. `src/profiles.yml.example` を `~/.dbt/profiles.yml` にコピーします。
+2. `dbt/profiles.yml.example` を `~/.dbt/profiles.yml` にコピーします。
 3. `server` と `database` を対象の Fabric Warehouse に合わせて変更し、Azure CLI でログインします。
 4. 接続とプロジェクトを検証します。
 
 ```bash
 mkdir -p ~/.dbt
-cp src/profiles.yml.example ~/.dbt/profiles.yml
+cp dbt/profiles.yml.example ~/.dbt/profiles.yml
 az login
 dbt debug
 dbt seed
