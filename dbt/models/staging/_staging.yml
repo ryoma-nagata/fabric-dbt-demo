@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: stg_customers
-    description: Seed から読み込んだ顧客マスタを整形したビュー。
+    description: Bronze Lakehouse の顧客マスタを整形したビュー。
     columns:
       - name: customer_id
         description: 顧客を一意に識別する ID。
@@ -14,7 +14,7 @@ models:
           - not_null
 
   - name: stg_orders
-    description: Seed から読み込んだ注文データを整形したビュー。
+    description: Bronze Lakehouse の注文データを整形したビュー。
     columns:
       - name: order_id
         description: 注文を一意に識別する ID。

@@ -1,0 +1,9 @@
+selectors:
+  - name: fabric_smoke_test
+    description: Fabric 上でステージングからマートまでを動作確認する。
+    definition:
+      union:
+        - method: path
+          value: dbt/models/staging
+        - method: path
+          value: dbt/models/marts

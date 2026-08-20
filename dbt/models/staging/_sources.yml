@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: ステージングモデルが参照する Bronze Lakehouse。
+    database: raw_lakehouse
+    schema: dbo
+    tables:
+      - name: customers
+        description: Bronze 層の顧客マスタ。
+      - name: orders
+        description: Bronze 層の注文データ。

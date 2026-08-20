@@ -4,10 +4,10 @@ fabric_dbt_demo:
     dev:
       type: fabric
       driver: "ODBC Driver 18 for SQL Server"
-      server: "<workspace-endpoint>.datawarehouse.fabric.microsoft.com"
+      server: "{{ env_var('DBT_FABRIC_SERVER') }}"
       port: 1433
-      database: "<warehouse-name>"
-      schema: dbo
+      database: "{{ env_var('DBT_FABRIC_DATABASE') }}"
+      schema: "{{ env_var('DBT_SCHEMA') }}"
       authentication: CLI
       encrypt: true
       trust_cert: false

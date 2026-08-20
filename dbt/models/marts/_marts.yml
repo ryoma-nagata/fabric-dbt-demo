@@ -11,6 +11,10 @@ models:
 
   - name: fct_orders
     description: 顧客属性と売上認識額を付加した注文ファクト。
+    data_tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "amount >= 0"
     columns:
       - name: order_id
         data_tests:
