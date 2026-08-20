@@ -1,9 +1,0 @@
-order_id,customer_id,order_date,status,amount
-1001,1,2024-03-01,completed,120.50
-1002,2,2024-03-02,completed,75.00
-1003,1,2024-03-10,cancelled,30.00
-1004,3,2024-03-12,completed,250.25
-1005,4,2024-03-15,pending,99.99
-1006,2,2024-04-01,completed,180.00
-1007,5,2024-04-05,completed,45.50
-1008,3,2024-04-07,refunded,80.00
