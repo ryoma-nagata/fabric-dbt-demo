@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: bronze
     description: ステージングモデルが参照する Hub Lakehouse。
-    database:　demo_dbt_hub
+    database: demo_dbt_hub
     schema: dbt
     tables:
       - name: customers
