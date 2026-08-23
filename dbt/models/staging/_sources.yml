@@ -2,9 +2,9 @@ version: 2
 
 sources:
   - name: bronze
-    description: ステージングモデルが参照する Bronze Lakehouse。
-    database: raw_lakehouse
-    schema: dbo
+    description: ステージングモデルが参照する Hub Lakehouse。
+    database:　demo_dbt_hub
+    schema: dbt
     tables:
       - name: customers
         description: Bronze 層の顧客マスタ。
